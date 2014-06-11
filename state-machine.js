@@ -77,6 +77,28 @@
 
       fsm.isFinished = function() { return this.is(terminal); };
 
+      // build an array of valid events for the current state
+      fsm.validEvents = function() {
+        var validEvents = [];
+        var allEvents = [];
+
+        if(this.transition)
+          return validEvents;
+
+        for(var name in map) {
+          if(map.hasOwnProperty(name)) {
+            allEvents.push(name);
+            for(var from in map[name]){
+              if(from === this.current)
+                validEvents.push(name);
+              if(from === StateMachine.WILDCARD)
+                validEvents = allEvents;
+            }
+          }
+        }
+        return validEvents;
+      };
+
       if (initial && !initial.defer)
         fsm[initial.event]();
 
