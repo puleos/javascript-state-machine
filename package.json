@@ -9,5 +9,8 @@
   "devDependencies": {
     "qunit": "~0.6.2"
   },
+  "scripts": {
+    "test": "node test/runner"
+  },
   "version":         "2.3.2"
 }
