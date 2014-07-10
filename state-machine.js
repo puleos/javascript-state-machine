@@ -99,27 +99,27 @@
         return validEvents;
       };
 
+      // build an array of states from the configuration hash ignore wildcards
+      fsm.validStates = function() {
+        var validStates = [];
+
+        for(var n = 0 ; n < events.length ; n++){
+          if(events.from !== StateMachine.WILDCARD && validStates.indexOf(events.from) === -1) {
+            validStates.push(events.from);
+          }
+          if(events.to !== StateMachine.WILDCARD && validStates.indexOf(events.to) === -1) {
+            validStates.push(events.to);
+          }
+        }
+
+        return validStates;
+      };
+
       if (initial && !initial.defer)
         fsm[initial.event]();
 
       return fsm;
 
-    },
-
-    // build an array of states from the configuration hash ignore wildcards
-    fsm.validStates = function() {
-      var validStates = [];
-
-      for(var n = 0 ; n < events.length ; n++){
-        if(events.from !== StateMachine.WILDCARD && validStates.indexOf(events.from) === -1) {
-          validStates.push(events.from);
-        }
-        if(events.to !== StateMachine.WILDCARD && validStates.indexOf(events.to) === -1) {
-          validStates.push(events.to);
-        }
-      }
-
-      return validStates;
     },
 
     //===========================================================================
