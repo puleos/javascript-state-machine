@@ -114,8 +114,13 @@
             addUnique(map[prop][key]);
           }
         }
+      };
 
-        return validStates;
+      if (initial && !initial.defer)
+        fsm[initial.event]();
+
+      return fsm;
+
     },
 
     //===========================================================================
