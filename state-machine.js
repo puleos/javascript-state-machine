@@ -105,10 +105,10 @@
 
         for(var n = 0 ; n < events.length ; n++){
           if(events.from !== StateMachine.WILDCARD && validStates.indexOf(events.from) === -1) {
-            validStates.push(events.from);
+            validStates.push(events[n].from);
           }
           if(events.to !== StateMachine.WILDCARD && validStates.indexOf(events.to) === -1) {
-            validStates.push(events.to);
+            validStates.push(events[n].to);
           }
         }
 
