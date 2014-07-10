@@ -43,6 +43,7 @@
       var events    = cfg.events || [];
       var callbacks = cfg.callbacks || {};
       var map       = {};
+      var states    = [];
 
       var add = function(e) {
         var from = (e.from instanceof Array) ? e.from : (e.from ? [e.from] : [StateMachine.WILDCARD]); // allow 'wildcard' transition if 'from' is not specified
@@ -69,6 +70,20 @@
           fsm[name] = callbacks[name]
       }
 
+      var addUnique = function(value){
+        if(value === 'none' || value === StateMachine.WILDCARD) { return; }
+        if(validStates.indexOf(value) !== -1){ return; }
+        states.push(value);
+      };
+
+      for(var prop in map) {
+        for(var key in map[prop]){
+          addUnique(key);
+          addUnique(map[prop][key]);
+        }
+      }
+
+      fsm.states  = states;
       fsm.current = 'none';
       fsm.is      = function(state) { return (state instanceof Array) ? (state.indexOf(this.current) >= 0) : (this.current === state); };
       fsm.can     = function(event) { return !this.transition && (map[event].hasOwnProperty(this.current) || map[event].hasOwnProperty(StateMachine.WILDCARD)); }
@@ -97,23 +112,6 @@
           }
         }
         return validEvents;
-      };
-
-      // build an array of states from the configuration hash ignore wildcards
-      fsm.validStates = function() {
-        var validStates = [];
-        var addUnique = function(value){
-          if(value === 'none' || value === StateMachine.WILDCARD) { return; }
-          if(validStates.indexOf(value) !== -1){ return; }
-          validStates.push(value);
-        };
-
-        for(var prop in map) {
-          for(var key in map[prop]){
-            addUnique(key);
-            addUnique(map[prop][key]);
-          }
-        }
       };
 
       if (initial && !initial.defer)
