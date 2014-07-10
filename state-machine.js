@@ -102,24 +102,20 @@
       // build an array of states from the configuration hash ignore wildcards
       fsm.validStates = function() {
         var validStates = [];
+        var addUnique = function(value){
+          if(value === 'none' || value === StateMachine.WILDCARD) { return; }
+          if(validStates.indexOf(value) !== -1){ return; }
+          validStates.push(value);
+        };
 
-        for(var n = 0 ; n < events.length ; n++){
-          if(events.from !== StateMachine.WILDCARD && validStates.indexOf(events.from) === -1) {
-            validStates.push(events[n].from);
-          }
-          if(events.to !== StateMachine.WILDCARD && validStates.indexOf(events.to) === -1) {
-            validStates.push(events[n].to);
+        for(var prop in map) {
+          for(var key in map[prop]){
+            addUnique(key);
+            addUnique(map[prop][key]);
           }
         }
 
         return validStates;
-      };
-
-      if (initial && !initial.defer)
-        fsm[initial.event]();
-
-      return fsm;
-
     },
 
     //===========================================================================
