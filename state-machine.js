@@ -72,7 +72,7 @@
 
       var addUnique = function(value){
         if(value === 'none' || value === StateMachine.WILDCARD) { return; }
-        if(validStates.indexOf(value) !== -1){ return; }
+        if(states.indexOf(value) !== -1){ return; }
         states.push(value);
       };
 
