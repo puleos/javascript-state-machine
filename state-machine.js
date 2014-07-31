@@ -114,6 +114,11 @@
         return validEvents;
       };
 
+      // get the state that will result from an event firing
+      fsm.getEventEndState = function(eventName) {
+        return map[eventName][this.current];
+      };
+
       if (initial && !initial.defer)
         fsm[initial.event]();
 
