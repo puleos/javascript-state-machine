@@ -95,22 +95,20 @@
       // build an array of valid events for the current state
       fsm.validEvents = function() {
         var validEvents = [];
-        var allEvents = [];
 
-        if(this.transition)
+        if(this.transition) {
           return validEvents;
-
+        }
         for(var name in map) {
           if(map.hasOwnProperty(name)) {
-            allEvents.push(name);
             for(var from in map[name]){
-              if(from === this.current)
+              if(from === this.current || from === StateMachine.WILDCARD) {
                 validEvents.push(name);
-              if(from === StateMachine.WILDCARD)
-                validEvents = allEvents;
+              }
             }
           }
         }
+
         return validEvents;
       };
 
